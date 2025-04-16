@@ -1,0 +1,41 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Onest-Black.ttf",
+      "sha1": "eb5e7918a838d5c77e3b716e8d075b50bce31f71"
+    },
+    {
+      "path": "src/assets/fonts/Onest-Bold.ttf",
+      "sha1": "215d4dec49d03d1ce20dcec7681747f09abaffbb"
+    },
+    {
+      "path": "src/assets/fonts/Onest-ExtraBold.ttf",
+      "sha1": "213c53bf204cca512b2915f013b2acbabe10b491"
+    },
+    {
+      "path": "src/assets/fonts/Onest-ExtraLight.ttf",
+      "sha1": "71c64a6c07979a114f63d849e52ae01de108cf82"
+    },
+    {
+      "path": "src/assets/fonts/Onest-Light.ttf",
+      "sha1": "38db1fd15eeaa700f2e8b6e42c819cd8d6ae3c6c"
+    },
+    {
+      "path": "src/assets/fonts/Onest-Medium.ttf",
+      "sha1": "853cc272c53ec9299cbcc39b439d192ccf4b029f"
+    },
+    {
+      "path": "src/assets/fonts/Onest-Regular.ttf",
+      "sha1": "7fd6bbad039ed1a565cb85f31679a7e4bc4fcfe3"
+    },
+    {
+      "path": "src/assets/fonts/Onest-SemiBold.ttf",
+      "sha1": "7089eacea65b9ae18cff842885e2c28c98c31554"
+    },
+    {
+      "path": "src/assets/fonts/Onest-Thin.ttf",
+      "sha1": "4c6465771bf88a37bab5e53e83af741df094e9e5"
+    }
+  ]
+}
