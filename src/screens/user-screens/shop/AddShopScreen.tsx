@@ -1,35 +1,19 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {
-  Dimensions,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {COLORS, FONTS} from '../../../assets/theme';
+import React, { FC, useEffect, useRef, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { COLORS, FONTS } from "../../../assets/theme";
 import {
   CustomButton,
   CustomHeader,
   CustomSecondaryButton,
   CustomTextInput,
-  CustomToastMessage,
-  CustomTouchable,
-} from '../../../components';
-import {StackActions, useNavigation} from '@react-navigation/native';
-import {
-  performEmailPhoneValidation,
-  performMobileValidation,
-  SCREEN_WIDTH,
-} from '../../../utilities';
-import {IMAGES} from '../../../assets/images';
-import {CustomToastMessageRef} from '../../../components/CustomToastMessage';
-import {useDispatch, useSelector} from 'react-redux';
-import {getSampleData} from '../../../store/sampleSlice';
-import type {AppDispatch, RootState} from '../../../store/store'; // Import types
-import {LoginResponse, onLogin} from '../../../store/authSlice';
-import {useToast} from '../../../utilities/toast';
-import {updateShop} from '../../../store/shopSlice';
+} from "../../../components";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { performMobileValidation } from "../../../utilities";
+import { IMAGES } from "../../../assets/images";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../store/store"; // Import types
+import { useToast } from "../../../utilities/toast";
+import { updateShop } from "../../../store/shopSlice";
 
 type formDataType = {
   user_id: string;
@@ -38,16 +22,17 @@ type formDataType = {
   pincode: number | null;
   mobile: string | null;
   business_type: string | null;
+  gst_number: string | null;
 };
 
 interface AddShopScreenProps {}
 
-const AddShopScreen: FC<AddShopScreenProps> = props => {
+const AddShopScreen: FC<AddShopScreenProps> = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch<AppDispatch>();
-  const {showToast} = useToast();
+  const { showToast } = useToast();
 
-  const {data: authData} = useSelector((state: RootState) => state.auth);
+  const { data: authData } = useSelector((state: RootState) => state.auth);
   const {
     shopData,
     shopLoading,
@@ -64,6 +49,7 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
     pincode: null,
     mobile: null,
     business_type: null,
+    gst_number: null,
   });
   const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
 
@@ -75,7 +61,7 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
   }, [shopSuccess]);
 
   function handleShopSuccess() {
-    const stackActions = StackActions.replace('BottomTabs');
+    const stackActions = StackActions.replace("BottomTabs");
     navigation.dispatch(stackActions);
   }
 
@@ -104,13 +90,12 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
   }
 
   function validateFormData() {
-    console.log('validateFormData', formDataRef.current);
+    console.log("validateFormData", formDataRef.current);
     if (
-      formDataRef.current?.name?.length === 0 ||
-      formDataRef.current?.address?.length === 0 ||
+      !formDataRef.current?.name ||
+      !formDataRef.current?.address ||
       formDataRef.current?.pincode?.toString()?.length !== 6 ||
       !performMobileValidation(formDataRef.current?.mobile) ||
-      formDataRef.current?.mobile?.toString()?.length !== 10 ||
       !formDataRef.current?.business_type
     ) {
       setIsButtonEnabled(false);
@@ -124,9 +109,14 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
   }
 
   function handleBusinessTypePressed() {
-    console.log('handleBusinessTypePressed');
-    formDataRef.current.business_type = 'Store';
+    console.log("handleBusinessTypePressed");
+    formDataRef.current.business_type = "Store";
     validateFormData();
+  }
+
+  function handleGSTNumberChanged(text: string) {
+    formDataRef.current.gst_number = text?.trim();
+    // validateFormData();
   }
 
   return (
@@ -136,7 +126,8 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
       <ScrollView
         contentContainerStyle={styles.mainContainer}
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <CustomTextInput
           label="Shop Name"
           placeholder="Enter Shop Name"
@@ -172,7 +163,16 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
           title="Business Type"
           rightImage={IMAGES.CHEVRON_DOWN_ICON}
           rightImageStyle={styles.chevronDownImageStyle}
+          containerStyle={styles.marginB20}
           onPress={handleBusinessTypePressed}
+          onRightPress={handleBusinessTypePressed}
+        />
+
+        <CustomTextInput
+          label="GST Number"
+          placeholder="Enter GST Number"
+          inputContainerStyle={styles.marginB20}
+          onChangeText={handleGSTNumberChanged}
         />
       </ScrollView>
 
@@ -191,14 +191,14 @@ const AddShopScreen: FC<AddShopScreenProps> = props => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: COLORS['F9F9FA'],
+    backgroundColor: COLORS["F9F9FA"],
   },
   keyboardAvoidingView: {
     flex: 1,
   },
   mainContainer: {
     flexGrow: 1,
-    backgroundColor: COLORS['F9F9FA'],
+    backgroundColor: COLORS["F9F9FA"],
     paddingHorizontal: 20,
     paddingVertical: 16,
   },
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     height: 16,
   },
   buttonContainer: {
-    backgroundColor: COLORS['FFFFFF'],
+    backgroundColor: COLORS["FFFFFF"],
     paddingHorizontal: 20,
     paddingVertical: 16,
   },

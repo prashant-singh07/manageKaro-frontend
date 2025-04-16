@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from 'react';
+} from "react";
 import {
   View,
   Animated,
@@ -18,8 +18,8 @@ import {
   TextStyle,
   ViewStyle,
   Platform,
-} from 'react-native';
-import {COLORS, FONTS} from '../assets/theme';
+} from "react-native";
+import { COLORS, FONTS } from "../assets/theme";
 
 interface CustomTextInputProps extends TextInputProps {
   label?: string | undefined;
@@ -32,7 +32,7 @@ interface CustomTextInputProps extends TextInputProps {
   leftComponent?: () => ReactNode;
 }
 
-const CustomTextInput: FC<CustomTextInputProps> = props => {
+const CustomTextInput: FC<CustomTextInputProps> = (props) => {
   const {
     label,
     labelStyle,
@@ -47,10 +47,10 @@ const CustomTextInput: FC<CustomTextInputProps> = props => {
     ...rest
   } = props;
 
-  const [inputTextValue, setInputTextValue] = useState<string>('');
+  const [inputTextValue, setInputTextValue] = useState<string>("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const labelPositionRef = useRef(
-    new Animated.Value(inputTextValue ? 1 : 0),
+    new Animated.Value(inputTextValue ? 1 : 0)
   ).current;
 
   const isInputFocusedOrFilled = isFocused || inputTextValue;
@@ -87,7 +87,8 @@ const CustomTextInput: FC<CustomTextInputProps> = props => {
           styles.inputContainerStyle,
           inputContainerStyle,
           isInputFocusedOrFilled && styles.focusedInputContainerStyle,
-        ]}>
+        ]}
+      >
         {leftComponent && leftComponent()}
         {label && showAnimation && (
           <Animated.Text
@@ -104,11 +105,12 @@ const CustomTextInput: FC<CustomTextInputProps> = props => {
                 }),
                 color: labelPositionRef.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [COLORS['C0C0C0'], COLORS['7F30FF']],
+                  outputRange: [COLORS["C0C0C0"], COLORS["7F30FF"]],
                 }),
               },
               labelStyle,
-            ]}>
+            ]}
+          >
             {label}
           </Animated.Text>
         )}
@@ -135,38 +137,38 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     // flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS['FFFFFF'],
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS["FFFFFF"],
     borderWidth: 1,
-    borderColor: COLORS['E0E0E0'],
+    borderColor: COLORS["E0E0E0"],
     borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 13,
+    // paddingVertical: 13,
     // height: 48,
-    position: 'relative',
+    position: "relative",
     // justifyContent: 'center',
   },
   focusedInputContainerStyle: {
-    borderColor: COLORS['7F30FF'],
+    borderColor: COLORS["7F30FF"],
   },
   fixedLabelStyle: {
     fontSize: 14,
     fontFamily: FONTS.MEDIUM,
-    color: COLORS['0C0C0C'],
+    color: COLORS["0C0C0C"],
     marginBottom: 8,
   },
   labelStyle: {
-    position: 'absolute',
+    position: "absolute",
     left: 12,
-    backgroundColor: COLORS['F9F9FA'],
+    backgroundColor: COLORS["F9F9FA"],
     paddingHorizontal: 4,
     fontFamily: FONTS.MEDIUM,
   },
   textInputStyle: {
     // height: 40,
     paddingHorizontal: 4,
-    paddingVertical: 0,
+    paddingVertical: 13,
     // backgroundColor: 'pink',
     flex: 1,
   },

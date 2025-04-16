@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import HttpWrapper from '../networks/HttpWrapper';
-import {SERVER_URL} from '../networks/ServerUrl';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import HttpWrapper from "../networks/HttpWrapper";
+import { SERVER_URL } from "../networks/ServerUrl";
 
 export type INITIAL_STATE = {
   shopLoading: boolean;
@@ -15,40 +15,38 @@ const initialState = {
   shopLoading: false,
   shopSuccess: false,
   shopError: false,
-  shopMessage: '',
-  shopDescription: '',
+  shopMessage: "",
+  shopDescription: "",
   shopData: null,
 };
 
 export const updateShop = createAsyncThunk(
-  'shopSlice/updateShop',
-  async (apiPayload: any, {fulfillWithValue, rejectWithValue}) => {
-    const url = new URL(SERVER_URL.PROFILE.UPDATE_PROFILE);
-    // url.searchParams
+  "shopSlice/updateShop",
+  async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
     try {
       const response = await HttpWrapper.POST(
         SERVER_URL.SHOP.UPDATE_SHOP,
-        apiPayload,
+        apiPayload
       );
       return fulfillWithValue(response);
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 const shopSlice = createSlice({
-  name: 'shopSlice',
+  name: "shopSlice",
   initialState: initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(updateShop.pending, (state, action) => {
         state.shopLoading = true;
         state.shopSuccess = false;
         state.shopError = false;
-        state.shopMessage = '';
-        state.shopDescription = '';
+        state.shopMessage = "";
+        state.shopDescription = "";
         state.shopData = null;
       })
       .addCase(updateShop.fulfilled, (state, action) => {

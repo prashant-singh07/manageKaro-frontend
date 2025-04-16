@@ -1,19 +1,19 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
-import {Platform, ScrollView, StyleSheet, View} from 'react-native';
-import {COLORS, FONTS} from '../../../assets/theme';
+import React, { FC, useEffect, useRef, useState } from "react";
+import { Platform, ScrollView, StyleSheet, View } from "react-native";
+import { COLORS, FONTS } from "../../../assets/theme";
 import {
   CustomButton,
   CustomHeader,
   CustomSecondaryButton,
   CustomTextInput,
-} from '../../../components';
-import {StackActions, useNavigation} from '@react-navigation/native';
-import {IMAGES} from '../../../assets/images';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppDispatch, RootState} from '../../../store/store';
-import {updateProfile} from '../../../store/profileSlice';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {useToast} from '../../../utilities/toast';
+} from "../../../components";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { IMAGES } from "../../../assets/images";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store/store";
+import { updateProfile } from "../../../store/profileSlice";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { useToast } from "../../../utilities/toast";
 
 type formDataType = {
   user_id: number;
@@ -23,17 +23,16 @@ type formDataType = {
   dob: string | Date | null;
   address: string | null;
   role: string | null;
-  gst_number: string | null;
   profile_image: string | null;
 };
 
 interface AddProfileScreenProps {}
 
-const AddProfileScreen: FC<AddProfileScreenProps> = props => {
+const AddProfileScreen: FC<AddProfileScreenProps> = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch<AppDispatch>();
 
-  const {data: authData} = useSelector((state: RootState) => state.auth);
+  const { data: authData } = useSelector((state: RootState) => state.auth);
   const {
     profileLoading,
     profileSuccess,
@@ -42,7 +41,7 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
     profileDescription,
     profileData,
   } = useSelector((state: RootState) => state.profile);
-  const {showToast} = useToast();
+  const { showToast } = useToast();
 
   const formDataRef = useRef<formDataType>({
     user_id: authData?.user_id,
@@ -52,7 +51,6 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
     dob: null,
     address: null,
     role: null,
-    gst_number: null,
     profile_image: null,
   });
   const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
@@ -60,19 +58,23 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
 
   useEffect(() => {
     if (profileSuccess) {
-      console.log('profileSuccess', profileSuccess);
       handleProfileSuccess();
-      showToast(profileMessage, profileDescription, true);
+
       return;
     }
     if (profileError) {
-      console.log('profileError', profileError);
+      handleProfileError();
       return;
     }
   }, [profileSuccess, profileError]);
 
+  function handleProfileError() {
+    showToast(profileMessage, profileDescription, false);
+  }
+
   function handleProfileSuccess() {
-    const stackActions = StackActions.push('AddShopScreen');
+    showToast(profileMessage, profileDescription, true);
+    const stackActions = StackActions.push("AddShopScreen");
     navigation.dispatch(stackActions);
   }
 
@@ -80,9 +82,17 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
     navigation.goBack();
   }
 
+  function validateFormData() {
+    if (!formDataRef.current.name) {
+      setIsButtonEnabled(false);
+      return;
+    }
+    setIsButtonEnabled(true);
+  }
+
   function handleNameChanged(text: string) {
     formDataRef.current.name = text?.trim();
-    setIsButtonEnabled(formDataRef.current.name?.length > 0);
+    validateFormData();
   }
 
   function handleEmailChanged(text: string) {
@@ -105,10 +115,6 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
   }
 
   function handleContinuePressed() {
-    console.log(
-      'handleContinuePressed formDataRef.current',
-      formDataRef.current,
-    );
     dispatch(updateProfile(formDataRef.current));
   }
 
@@ -118,7 +124,8 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
       <ScrollView
         contentContainerStyle={styles.mainContainer}
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+      >
         <CustomTextInput
           label="Name"
           placeholder="Enter your name"
@@ -153,7 +160,6 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
           inputContainerStyle={styles.marginB20}
           onChangeText={handleAddressChanged}
         />
-        <CustomTextInput label="GSTN" placeholder="Enter your GSTN" />
       </ScrollView>
       {/* </KeyboardAvoidingView> */}
       <View style={styles.buttonContainer}>
@@ -181,14 +187,14 @@ const AddProfileScreen: FC<AddProfileScreenProps> = props => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: COLORS['F9F9FA'],
+    backgroundColor: COLORS["F9F9FA"],
   },
   keyboardAvoidingView: {
     flex: 1,
   },
   mainContainer: {
     flexGrow: 1,
-    backgroundColor: COLORS['F9F9FA'],
+    backgroundColor: COLORS["F9F9FA"],
     paddingHorizontal: 20,
     paddingVertical: 16,
   },
@@ -200,7 +206,7 @@ const styles = StyleSheet.create({
     height: 16,
   },
   buttonContainer: {
-    backgroundColor: COLORS['FFFFFF'],
+    backgroundColor: COLORS["FFFFFF"],
     paddingHorizontal: 20,
     paddingVertical: 16,
   },
