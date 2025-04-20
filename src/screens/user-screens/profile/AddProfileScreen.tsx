@@ -99,6 +99,10 @@ const AddProfileScreen: FC<AddProfileScreenProps> = (props) => {
     formDataRef.current.email_id = text?.trim();
   }
 
+  function handleGenderPressed() {
+    console.log("Gender");
+  }
+
   function handleDateOfBirthPressed() {
     setShowDatePicker(true);
   }
@@ -143,16 +147,16 @@ const AddProfileScreen: FC<AddProfileScreenProps> = (props) => {
           containerStyle={styles.marginB20}
           label="Gender"
           title="Gender"
+          onPress={handleGenderPressed}
           rightImage={IMAGES.CHEVRON_DOWN_ICON}
           rightImageStyle={styles.chevronDownImageStyle}
-          onRightPress={() => {}}
         />
         <CustomSecondaryButton
           containerStyle={styles.marginB20}
           label="Date of Birth"
           title="Date of Birth"
+          onPress={handleDateOfBirthPressed}
           rightImage={IMAGES.CALENDAR_ICON}
-          onRightPress={handleDateOfBirthPressed}
         />
         <CustomTextInput
           label="Address"

@@ -1,6 +1,6 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import HttpWrapper from '../networks/HttpWrapper';
-import {SERVER_URL} from '../networks/ServerUrl';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import HttpWrapper from "../networks/HttpWrapper";
+import { SERVER_URL } from "../networks/ServerUrl";
 
 export type LoginResponse = {
   is_profile_complete: boolean;
@@ -14,7 +14,8 @@ export type LoginResponse = {
   role: string;
   gst_number: string;
   profile_image: string;
-  shop_id: string;
+  shop_id: string[];
+  user_id: string;
 };
 
 export type INITIAL_STATE = {
@@ -23,56 +24,56 @@ export type INITIAL_STATE = {
   error: boolean | null;
   message: string | null;
   description: string | null;
-  data: any | null;
+  data: LoginResponse | null;
 };
 
 const initialState = {
   loading: false,
   success: false,
   error: false,
-  message: '',
-  description: '',
+  message: "",
+  description: "",
   data: null,
 };
 
 export const onLogin = createAsyncThunk(
-  'authSlice/onLogin',
-  async (apiPayload: any, {fulfillWithValue, rejectWithValue}) => {
+  "authSlice/onLogin",
+  async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
     const url = new URL(SERVER_URL.AUTH.LOGIN);
     // url.searchParams
     try {
       const response = await HttpWrapper.POST(
         SERVER_URL.AUTH.LOGIN,
-        apiPayload,
+        apiPayload
       );
       return fulfillWithValue(response);
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const onRegister = createAsyncThunk(
-  'authSlice/onRegister',
-  async (apiPayload: any, {fulfillWithValue, rejectWithValue}) => {
+  "authSlice/onRegister",
+  async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
     const url = new URL(SERVER_URL.AUTH.REGISTER);
     try {
       const response = await HttpWrapper.POST(
         SERVER_URL.AUTH.REGISTER,
-        apiPayload,
+        apiPayload
       );
       return fulfillWithValue(response);
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 const authSlice = createSlice({
-  name: 'authSlice',
+  name: "authSlice",
   initialState: initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(onLogin.pending, (state, action) => {
         // state.success = false;
@@ -80,8 +81,8 @@ const authSlice = createSlice({
         state.loading = true;
         state.success = false;
         state.error = false;
-        state.message = '';
-        state.description = '';
+        state.message = "";
+        state.description = "";
         state.data = null;
       })
       .addCase(onLogin.fulfilled, (state, action) => {
@@ -104,8 +105,8 @@ const authSlice = createSlice({
         state.loading = true;
         state.success = false;
         state.error = false;
-        state.message = '';
-        state.description = '';
+        state.message = "";
+        state.description = "";
         state.data = null;
       })
       .addCase(onRegister.fulfilled, (state, action) => {

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -9,20 +9,21 @@ import {
   TextStyle,
   View,
   ViewProps,
-} from 'react-native';
-import CutsomTouchable, {CutsomTouchableProps} from './CustomTouchable';
-import {COLORS, FONTS} from '../assets/theme';
+} from "react-native";
+import CutsomTouchable, { CutsomTouchableProps } from "./CustomTouchable";
+import { COLORS, FONTS } from "../assets/theme";
 
 interface CustomDividerProps extends ViewProps {}
 
-const CustomDivider: FC<CustomDividerProps> = props => {
-  return <View style={styles.dividerSyle} {...props} />;
+const CustomDivider: FC<CustomDividerProps> = (props) => {
+  const { style, ...rest } = props;
+  return <View style={[styles.dividerSyle, style]} {...rest} />;
 };
 
 const styles = StyleSheet.create({
   dividerSyle: {
     height: 2,
-    backgroundColor: COLORS['EBEBEB'],
+    backgroundColor: COLORS["EBEBEB"],
     marginVertical: 20,
   },
 });

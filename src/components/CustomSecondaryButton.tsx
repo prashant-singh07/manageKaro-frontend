@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -9,9 +9,9 @@ import {
   TextStyle,
   View,
   ViewStyle,
-} from 'react-native';
-import {COLORS, FONTS} from '../assets/theme';
-import CutsomTouchable from './CustomTouchable';
+} from "react-native";
+import { COLORS, FONTS } from "../assets/theme";
+import CutsomTouchable from "./CustomTouchable";
 
 interface CustomSecondaryButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -25,7 +25,7 @@ interface CustomSecondaryButtonProps {
   onRightPress?: () => void;
 }
 
-const CustomSecondaryButton: FC<CustomSecondaryButtonProps> = props => {
+const CustomSecondaryButton: FC<CustomSecondaryButtonProps> = (props) => {
   const {
     containerStyle,
     label,
@@ -35,20 +35,22 @@ const CustomSecondaryButton: FC<CustomSecondaryButtonProps> = props => {
     titleStyle,
     rightImage,
     rightImageStyle,
-    onRightPress,
+    onRightPress = () => {},
   } = props;
   return (
     <View>
       {label && <Text style={[styles.labelStyle, labelStyle]}>{label}</Text>}
       <CutsomTouchable
         onPress={onPress}
-        style={[styles.containerStyle, containerStyle]}>
+        style={[styles.containerStyle, containerStyle]}
+      >
         {title && <Text style={[styles.titleStyle, titleStyle]}>{title}</Text>}
 
-        {onRightPress && (
+        {rightImage && (
           <CutsomTouchable
             style={styles.rightImageContainerStyle}
-            onPress={onRightPress}>
+            onPress={onRightPress}
+          >
             <Image
               source={rightImage}
               style={[styles.rightImageStyle, rightImageStyle]}
@@ -62,34 +64,34 @@ const CustomSecondaryButton: FC<CustomSecondaryButtonProps> = props => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 13,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: COLORS['FFFFFF'],
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: COLORS["FFFFFF"],
     borderWidth: 1,
-    borderColor: COLORS['E5E5E5'],
+    borderColor: COLORS["E5E5E5"],
   },
   labelStyle: {
     fontSize: 14,
     fontFamily: FONTS.MEDIUM,
-    color: COLORS['0C0C0C'],
+    color: COLORS["0C0C0C"],
     marginBottom: 8,
   },
   titleStyle: {
     fontSize: 14,
     fontFamily: FONTS.REGULAR,
-    color: COLORS['C0C0C0'],
+    color: COLORS["C0C0C0"],
   },
   rightImageContainerStyle: {
     paddingHorizontal: 4,
   },
   rightImageStyle: {
-    height: 20,
-    width: 20,
-    resizeMode: 'contain',
+    height: 16,
+    width: 16,
+    resizeMode: "contain",
   },
 });
 export default CustomSecondaryButton;

@@ -1,2 +1,2 @@
-export * from './bottom-tabs';
-export * from './user-screens';
+export * from "./bottom-tabs";
+export * from "./user-screens";

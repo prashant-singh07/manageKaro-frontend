@@ -1,23 +1,14 @@
-import React, {
-  FC,
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
 import {
   View,
   Animated,
   TextInput,
   TextInputProps,
   Text,
-  KeyboardAvoidingView,
   StyleSheet,
   StyleProp,
   TextStyle,
   ViewStyle,
-  Platform,
 } from "react-native";
 import { COLORS, FONTS } from "../assets/theme";
 
@@ -25,7 +16,6 @@ interface CustomTextInputProps extends TextInputProps {
   label?: string | undefined;
   labelStyle?: StyleProp<TextStyle> | undefined;
   inputContainerStyle?: StyleProp<ViewStyle> | undefined;
-  containerStyle?: StyleProp<ViewStyle> | undefined;
   errorMessage?: string | undefined;
   showAnimation?: boolean | undefined;
   rightComponent?: () => ReactNode;
@@ -37,7 +27,6 @@ const CustomTextInput: FC<CustomTextInputProps> = (props) => {
     label,
     labelStyle,
     inputContainerStyle,
-    containerStyle,
     onChangeText,
     errorMessage,
     showAnimation,
@@ -75,9 +64,6 @@ const CustomTextInput: FC<CustomTextInputProps> = (props) => {
   }
 
   return (
-    // <KeyboardAvoidingView
-    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    //   style={[styles.containerStyle, containerStyle]}>
     <View>
       {label && !showAnimation && (
         <Text style={[styles.fixedLabelStyle, labelStyle]}>{label}</Text>
@@ -126,15 +112,10 @@ const CustomTextInput: FC<CustomTextInputProps> = (props) => {
         {rightComponent && rightComponent()}
       </View>
     </View>
-    //</KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    flex: 1,
-    // paddingVertical: 10,
-  },
   inputContainerStyle: {
     // flex: 1,
     flexDirection: "row",

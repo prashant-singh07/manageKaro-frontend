@@ -1,10 +1,9 @@
 import React, {
-  FC,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
-} from 'react';
+} from "react";
 import {
   View,
   Text,
@@ -12,23 +11,24 @@ import {
   StyleProp,
   ViewStyle,
   ImageSourcePropType,
-  Image,
   ImageStyle,
   TextStyle,
-  BackHandler,
-} from 'react-native';
-import ReactNativeModal, {ModalProps} from 'react-native-modal';
-import {COLORS, FONTS} from '../assets/theme';
+  ScrollView,
+  FlatList,
+} from "react-native";
+import ReactNativeModal, { ModalProps } from "react-native-modal";
+import { COLORS, FONTS } from "../assets/theme";
+import CutsomTouchable from "./CustomTouchable";
+import { SCREEN_HEIGHT } from "../utilities";
 
 interface CustomModalProps extends Partial<ModalProps> {
   autoCloseDuration?: number;
   modalContainerStyle?: StyleProp<ViewStyle> | undefined;
-  icon?: ImageSourcePropType | undefined;
-  iconStyle?: StyleProp<ImageStyle>;
   title?: string | undefined;
   titleStyle?: StyleProp<TextStyle> | undefined;
-  description?: string | undefined;
-  descriptionStyle?: StyleProp<TextStyle> | undefined;
+  options?: any[] | undefined;
+  renderOption?: (item: any) => React.ReactNode | undefined;
+  onTitlePressed?: () => void | undefined;
 }
 
 export interface CustomModalRef {
@@ -41,12 +41,11 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
     const {
       autoCloseDuration,
       modalContainerStyle,
-      icon,
-      iconStyle,
       title,
       titleStyle,
-      description,
-      descriptionStyle,
+      options,
+      renderOption,
+      onTitlePressed,
       ...rest
     } = props;
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -59,21 +58,21 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
           close: closeModal,
         };
       },
-      [],
+      []
     );
 
-    useEffect(() => {
-      let timer: ReturnType<typeof setTimeout>;
-      if (isModalVisible && autoCloseDuration) {
-        timer = setTimeout(() => {
-          closeModal();
-        }, autoCloseDuration);
-      }
+    // useEffect(() => {
+    //   let timer: ReturnType<typeof setTimeout>;
+    //   if (isModalVisible && autoCloseDuration) {
+    //     timer = setTimeout(() => {
+    //       closeModal();
+    //     }, autoCloseDuration);
+    //   }
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }, [autoCloseDuration, isModalVisible]);
+    //   return () => {
+    //     clearTimeout(timer);
+    //   };
+    // }, [autoCloseDuration, isModalVisible]);
 
     function openModal() {
       setIsModalVisible(true);
@@ -83,65 +82,95 @@ const CustomModal = forwardRef<CustomModalRef, CustomModalProps>(
       setIsModalVisible(false);
     }
 
+    function handleTitlePressed() {
+      onTitlePressed?.();
+    }
+
     return (
       <ReactNativeModal
         isVisible={isModalVisible}
-        animationIn={'fadeIn'}
-        animationOut={'fadeOut'}
+        animationIn={"slideInUp"}
+        animationOut={"slideOutDown"}
         style={styles.modalStyle}
         onBackButtonPress={closeModal}
         onBackdropPress={closeModal}
-        {...rest}>
+        onSwipeComplete={closeModal}
+        // backdropColor={COLORS["000000"]}
+        backdropOpacity={0.5}
+        useNativeDriver={true}
+        {...rest}
+      >
         <View style={[styles.modalContainerStyle, modalContainerStyle]}>
-          {icon ? (
-            <Image style={[styles.iconStyle, iconStyle]} source={icon} />
-          ) : null}
-          {title ? (
-            <Text style={[styles.titleStyle, titleStyle]}>{title}</Text>
-          ) : null}
-          {description ? (
-            <Text style={[styles.descriptionStyle, descriptionStyle]}>
-              {description}
-            </Text>
-          ) : null}
+          {title && (
+            <CutsomTouchable
+              style={[styles.flexRowCenter]}
+              onPress={handleTitlePressed}
+            >
+              <Text style={[styles.titleStyle, titleStyle]}>{title}</Text>
+              <Text style={styles.titleStyle}>+</Text>
+            </CutsomTouchable>
+          )}
+
+          <FlatList
+            data={options}
+            keyExtractor={(item, index) =>
+              item?.id?.toString() + index?.toString()
+            }
+            renderItem={({ item, index }) => renderOption?.(item)}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
       </ReactNativeModal>
     );
-  },
+  }
 );
 
 const styles = StyleSheet.create({
   modalStyle: {
-    flex: 1,
+    // flex: 1,
     margin: 0,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
+    justifyContent: "flex-end",
+    // height: SCREEN_HEIGHT * 0.7,
+    // backgroundColor: COLORS["000000"],
+    // paddingHorizontal: 20,
   },
   modalContainerStyle: {
     borderRadius: 20,
     padding: 20,
-    backgroundColor: COLORS['FFFFFF'],
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: COLORS["F9F9FA"],
+    height: SCREEN_HEIGHT * 0.7,
+    // flex: 1,
+    // justifyContent: "center",
+
+    // alignItems: "flex-start",
+  },
+  flexRowCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 12,
+    borderWidth: 1,
+    borderColor: COLORS["EBEBEB"],
+    borderRadius: 12,
+    marginBottom: 10,
   },
   iconStyle: {
     height: 40,
     width: 40,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginBottom: 20,
   },
   titleStyle: {
-    fontSize: 20,
-    fontFamily: FONTS.MEDIUM,
-    color: COLORS['272727'],
-    textAlign: 'center',
-  },
-  descriptionStyle: {
     fontSize: 14,
     fontFamily: FONTS.MEDIUM,
-    color: COLORS['B1B1B1'],
-    textAlign: 'center',
-    marginTop: 10,
+    color: COLORS["7F30FF"],
+    textAlign: "center",
+  },
+  optionTitleStyle: {
+    fontSize: 14,
+    fontFamily: FONTS.REGULAR,
+    color: COLORS["0C0C0C"],
+    textAlign: "center",
   },
 });
 

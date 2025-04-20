@@ -1,29 +1,27 @@
 export const COLORS = {
-  FFFFFF: '#FFFFFF',
-  '272727': '#272727',
-  '7F30FF': '#7F30FF',
-  E0E0E0: '#E0E0E0',
-  B1B1B1: '#B1B1B1',
-  '000000': '#000000',
-  '00171f': '#00171f',
-  '0583dc': '#0583dc',
-  '808080': '#808080',
-  F5F5F5: '#F5F5F5',
-  '787878': '#787878',
-  '0C0C0C': '#0C0C0C',
-  EBEBEB: '#EBEBEB',
-  F9F9FA: '#F9F9FA',
-  E5E5E5: '#E5E5E5',
-  C0C0C0: '#C0C0C0',
+  FFFFFF: "#FFFFFF",
+  "272727": "#272727",
+  "7F30FF": "#7F30FF",
+  E0E0E0: "#E0E0E0",
+  B1B1B1: "#B1B1B1",
+  "000000": "#000000",
+  "808080": "#808080",
+  F5F5F5: "#F5F5F5",
+  "787878": "#787878",
+  "0C0C0C": "#0C0C0C",
+  EBEBEB: "#EBEBEB",
+  F9F9FA: "#F9F9FA",
+  E5E5E5: "#E5E5E5",
+  C0C0C0: "#C0C0C0",
 };
 
 export const FONTS = {
-  LIGHT: 'Onest-Light', //300
-  REGULAR: 'Onest-Regular', //400
-  MEDIUM: 'Onest-Medium', //500
-  SEMI_BOLD: 'Onest-SemiBold', //600
-  BOLD: 'Onest-Bold', //700
-  EXTRA_BOLD: 'Onest-ExtraBold', //800
+  LIGHT: "Onest-Light", //300
+  REGULAR: "Onest-Regular", //400
+  MEDIUM: "Onest-Medium", //500
+  SEMI_BOLD: "Onest-SemiBold", //600
+  BOLD: "Onest-Bold", //700
+  EXTRA_BOLD: "Onest-ExtraBold", //800
 };
 
 // const a = {

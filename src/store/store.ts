@@ -1,8 +1,11 @@
-import {configureStore} from '@reduxjs/toolkit';
-import sampleReducer from './sampleSlice';
-import authReducer from './authSlice';
-import profileReducer from './profileSlice';
-import shopReducer from './shopSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import sampleReducer from "./sampleSlice";
+import authReducer from "./authSlice";
+import profileReducer from "./profileSlice";
+import shopReducer from "./shopSlice";
+import supplierReducer from "./supplierSlice";
+import skuReducer from "./skuSlice";
+import purchaseReducer from "./purchaseSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +16,9 @@ export const store = configureStore({
     auth: authReducer,
     profile: profileReducer,
     shop: shopReducer,
+    supplier: supplierReducer,
+    sku: skuReducer,
+    purchase: purchaseReducer,
   },
 });
 
