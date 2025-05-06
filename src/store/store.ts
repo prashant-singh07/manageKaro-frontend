@@ -6,6 +6,7 @@ import shopReducer from "./shopSlice";
 import supplierReducer from "./supplierSlice";
 import skuReducer from "./skuSlice";
 import purchaseReducer from "./purchaseSlice";
+import salesReducer from "./saleSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     supplier: supplierReducer,
     sku: skuReducer,
     purchase: purchaseReducer,
+    sales: salesReducer,
   },
 });
 

@@ -1,41 +1,42 @@
-import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
-import CustomTabBarItem from './CustomTabBarItem';
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import React, { FC } from "react";
+import { StyleSheet, View } from "react-native";
+import CustomTabBarItem from "./CustomTabBarItem";
 
-const CustomTabBar: FC<BottomTabBarProps> = props => {
-  const {state, navigation} = props;
-  const {routes, index: routeIndex} = state;
+const CustomTabBar: FC<BottomTabBarProps> = (props) => {
+  const { state, navigation } = props;
+  const { routes, index: routeIndex } = state;
 
   function handleTabBarItemPressed(routeName: string) {
-    console.log('routeName', routeName);
     navigation.navigate(routeName);
   }
 
   function getTabBarIcon(routeName: string) {
     let activeIcon, inactiveIcon, label;
     switch (routeName) {
-      case 'InvoiceScreen':
-        label = 'Invoice';
+      case "SalesScreen":
+        label = "Sales";
         break;
-      case 'InventoryScreen':
-        label = 'Inventory';
+      case "InventoryScreen":
+        label = "Inventory";
+        break;
+      case "MoreScreen":
+        label = "More";
         break;
       default:
-        label = 'Invoice';
+        label = "Sales";
         break;
     }
-    return {activeIcon, inactiveIcon, label};
+    return { activeIcon, inactiveIcon, label };
   }
 
   return (
     <View style={styles.tabStyle}>
       {routes.map((item, index) => {
-        const {key, name, params} = item;
-        console.log('item', item);
+        const { key, name, params } = item;
         const isFocused = routeIndex == index;
 
-        const {activeIcon, inactiveIcon, label} = getTabBarIcon(name);
+        const { activeIcon, inactiveIcon, label } = getTabBarIcon(name);
         return (
           <CustomTabBarItem
             key={key}
@@ -54,9 +55,9 @@ const CustomTabBar: FC<BottomTabBarProps> = props => {
 
 const styles = StyleSheet.create({
   tabStyle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
     paddingVertical: 20,
   },
 });

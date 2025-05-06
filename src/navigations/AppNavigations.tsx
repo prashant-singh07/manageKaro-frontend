@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   InventoryScreen,
-  InvoiceScreen,
   LoginScreen,
   AddProfileScreen,
   RecordSaleScreen,
@@ -13,6 +12,9 @@ import {
   AddPurchaseOrderScreen,
   AddNewSupplierScreen,
   AddNewSkuScreen,
+  PurchaseOrderDetailsScreen,
+  MoreScreen,
+  SalesScreen,
 } from "../screens";
 import { CustomTabBar } from "../components";
 
@@ -25,8 +27,9 @@ function BottomTabs() {
       screenOptions={{ headerShown: false }}
       tabBar={(props) => <CustomTabBar {...props} />}
     >
-      <Tabs.Screen name="InvoiceScreen" component={InvoiceScreen} />
+      <Tabs.Screen name="SalesScreen" component={SalesScreen} />
       <Tabs.Screen name="InventoryScreen" component={InventoryScreen} />
+      <Tabs.Screen name="MoreScreen" component={MoreScreen} />
     </Tabs.Navigator>
   );
 }
@@ -80,6 +83,11 @@ function AppNavigations() {
       <Stack.Screen
         name="AddNewSkuScreen"
         component={AddNewSkuScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="PurchaseOrderDetailsScreen"
+        component={PurchaseOrderDetailsScreen}
         options={{ gestureEnabled: false }}
       />
     </Stack.Navigator>

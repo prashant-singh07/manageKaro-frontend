@@ -38,8 +38,11 @@ const request = async (
   } catch (error) {
     let _error = error;
     if (error instanceof Error) {
+      console.log("inside instance error");
+
       _error = error.message;
     }
+
     console.log("error", _error);
     throw _error;
   }

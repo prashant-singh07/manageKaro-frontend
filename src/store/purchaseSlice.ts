@@ -11,6 +11,24 @@ const CREATE_PURCHASE_ORDER_INITIAL_STATE = {
   createPurchaseOrderData: null,
 };
 
+const GET_PURCHASE_ORDER_INITIAL_STATE = {
+  getPurchaseOrderLoading: false,
+  getPurchaseOrderSuccess: false,
+  getPurchaseOrderError: false,
+  getPurchaseOrderMessage: "",
+  getPurchaseOrderDescription: "",
+  getPurchaseOrderData: null,
+};
+
+const GET_PURCHASE_ORDER_DETAILS_INITIAL_STATE = {
+  getPurchaseOrderDetailsLoading: false,
+  getPurchaseOrderDetailsSuccess: false,
+  getPurchaseOrderDetailsError: false,
+  getPurchaseOrderDetailsMessage: "",
+  getPurchaseOrderDetailsDescription: "",
+  getPurchaseOrderDetailsData: null,
+};
+
 export type INITIAL_STATE = {
   loading: boolean;
   success: boolean;
@@ -22,6 +40,8 @@ export type INITIAL_STATE = {
 
 const initialState = {
   ...CREATE_PURCHASE_ORDER_INITIAL_STATE,
+  ...GET_PURCHASE_ORDER_INITIAL_STATE,
+  ...GET_PURCHASE_ORDER_DETAILS_INITIAL_STATE,
 };
 
 export const createPurchaseOrder = createAsyncThunk(
@@ -29,6 +49,32 @@ export const createPurchaseOrder = createAsyncThunk(
   async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
     const url = new URL(SERVER_URL.PURCHASE.CREATE_PURCHASE_ORDER);
     // url.searchParams
+    try {
+      const response = await HttpWrapper.POST(url.href, apiPayload);
+      return fulfillWithValue(response);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getPurchaseOrder = createAsyncThunk(
+  "purchaseSlice/getPurchaseOrder",
+  async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
+    const url = new URL(SERVER_URL.PURCHASE.GET_PURCHASE_ORDER);
+    try {
+      const response = await HttpWrapper.POST(url.href, apiPayload);
+      return fulfillWithValue(response);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getPurchaseOrderDetails = createAsyncThunk(
+  "purchaseSlice/getPurchaseOrderDetails",
+  async (apiPayload: any, { fulfillWithValue, rejectWithValue }) => {
+    const url = new URL(SERVER_URL.PURCHASE.GET_PURCHASE_ORDER_DETAILS);
     try {
       const response = await HttpWrapper.POST(url.href, apiPayload);
       return fulfillWithValue(response);
@@ -49,6 +95,22 @@ const purchaseSlice = createSlice({
       state.createPurchaseOrderMessage = "";
       state.createPurchaseOrderDescription = "";
       state.createPurchaseOrderData = null;
+    },
+    resetGetPurchaseOrder: (state) => {
+      state.getPurchaseOrderLoading = false;
+      state.getPurchaseOrderSuccess = false;
+      state.getPurchaseOrderError = false;
+      state.getPurchaseOrderMessage = "";
+      state.getPurchaseOrderDescription = "";
+      state.getPurchaseOrderData = null;
+    },
+    resetGetPurchaseOrderDetails: (state) => {
+      state.getPurchaseOrderDetailsLoading = false;
+      state.getPurchaseOrderDetailsSuccess = false;
+      state.getPurchaseOrderDetailsError = false;
+      state.getPurchaseOrderDetailsMessage = "";
+      state.getPurchaseOrderDetailsDescription = "";
+      state.getPurchaseOrderDetailsData = null;
     },
   },
   extraReducers: (builder) => {
@@ -76,9 +138,61 @@ const purchaseSlice = createSlice({
         state.createPurchaseOrderMessage = action.payload?.message;
         state.createPurchaseOrderDescription = action.payload?.description;
         state.createPurchaseOrderData = action.payload?.data;
+      })
+      .addCase(getPurchaseOrder.pending, (state, action) => {
+        state.getPurchaseOrderLoading = true;
+        state.getPurchaseOrderSuccess = false;
+        state.getPurchaseOrderError = false;
+        state.getPurchaseOrderMessage = "";
+        state.getPurchaseOrderDescription = "";
+        state.getPurchaseOrderData = null;
+      })
+      .addCase(getPurchaseOrder.fulfilled, (state, action) => {
+        state.getPurchaseOrderLoading = false;
+        state.getPurchaseOrderSuccess = true;
+        state.getPurchaseOrderError = false;
+        state.getPurchaseOrderMessage = action.payload?.message;
+        state.getPurchaseOrderDescription = action.payload?.description;
+        state.getPurchaseOrderData = action.payload?.data;
+      })
+      .addCase(getPurchaseOrder.rejected, (state, action) => {
+        state.getPurchaseOrderLoading = false;
+        state.getPurchaseOrderSuccess = false;
+        state.getPurchaseOrderError = true;
+        state.getPurchaseOrderMessage = action.payload?.message;
+        state.getPurchaseOrderDescription = action.payload?.description;
+        state.getPurchaseOrderData = action.payload?.data;
+      })
+      .addCase(getPurchaseOrderDetails.pending, (state, action) => {
+        state.getPurchaseOrderDetailsLoading = true;
+        state.getPurchaseOrderDetailsSuccess = false;
+        state.getPurchaseOrderDetailsError = false;
+        state.getPurchaseOrderDetailsMessage = "";
+        state.getPurchaseOrderDetailsDescription = "";
+        state.getPurchaseOrderDetailsData = null;
+      })
+      .addCase(getPurchaseOrderDetails.fulfilled, (state, action) => {
+        state.getPurchaseOrderDetailsLoading = false;
+        state.getPurchaseOrderDetailsSuccess = true;
+        state.getPurchaseOrderDetailsError = false;
+        state.getPurchaseOrderDetailsMessage = action.payload?.message;
+        state.getPurchaseOrderDetailsDescription = action.payload?.description;
+        state.getPurchaseOrderDetailsData = action.payload?.data;
+      })
+      .addCase(getPurchaseOrderDetails.rejected, (state, action) => {
+        state.getPurchaseOrderDetailsLoading = false;
+        state.getPurchaseOrderDetailsSuccess = false;
+        state.getPurchaseOrderDetailsError = true;
+        state.getPurchaseOrderDetailsMessage = action.payload?.message;
+        state.getPurchaseOrderDetailsDescription = action.payload?.description;
+        state.getPurchaseOrderDetailsData = action.payload?.data;
       });
   },
 });
 
-export const { resetCreatePurchaseOrder } = purchaseSlice.actions;
+export const {
+  resetCreatePurchaseOrder,
+  resetGetPurchaseOrder,
+  resetGetPurchaseOrderDetails,
+} = purchaseSlice.actions;
 export default purchaseSlice.reducer;

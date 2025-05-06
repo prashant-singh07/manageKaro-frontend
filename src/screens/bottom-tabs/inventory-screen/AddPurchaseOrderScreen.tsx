@@ -345,6 +345,7 @@ const AddPurchaseOrderScreen: FC<AddPurchaseOrderScreenProps> = (props) => {
               mode="date"
               display="default"
               onChange={handleDateChange}
+              // style={{ position: "absolute", bottom: 110, right: 100 }}
             />
           )}
 

@@ -1,7 +1,7 @@
 // const BASE_URL = "https://managekaro-wg9e.onrender.com"; // PRODUCTION
-// const BASE_URL = "https://managekaro-dev.onrender.com"; // DEVELOPMENT
+const BASE_URL = "https://managekaro-dev.onrender.com"; // DEVELOPMENT
 
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
 
 export const SERVER_URL = {
   AUTH: {
@@ -28,5 +28,11 @@ export const SERVER_URL = {
   },
   PURCHASE: {
     CREATE_PURCHASE_ORDER: BASE_URL + "/purchase/create-purchase-order",
+    GET_PURCHASE_ORDER: BASE_URL + "/purchase/get-all-purchase",
+    GET_PURCHASE_ORDER_DETAILS: BASE_URL + "/purchase/get-purchase-details",
+  },
+  SALES: {
+    CREATE_SALES_OREDER: BASE_URL + "/sale/create-sale-order",
+    GET_ALL_SALES_ORDER: BASE_URL + "/sale/get-all-sales",
   },
 };

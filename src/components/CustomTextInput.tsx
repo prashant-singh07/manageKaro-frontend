@@ -33,6 +33,7 @@ const CustomTextInput: FC<CustomTextInputProps> = (props) => {
     placeholder,
     rightComponent,
     leftComponent,
+    style,
     ...rest
   } = props;
 
@@ -101,7 +102,7 @@ const CustomTextInput: FC<CustomTextInputProps> = (props) => {
           </Animated.Text>
         )}
         <TextInput
-          style={[styles.textInputStyle]}
+          style={[styles.textInputStyle, style]}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           value={inputTextValue}
